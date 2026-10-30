@@ -1,6 +1,8 @@
 import os
 import toml
 import yaml
+import pandas as pd
+from tabulate import tabulate
 
 DIR_NAME = f"{os.getcwd()}/list"
 ITEMS_HEADER = "items"
@@ -11,9 +13,9 @@ for filename in os.listdir(DIR_NAME):
         config = toml.load(f)
         for person in config:
             print(f"-------------------\n{person}\n-------------------")
-            for wish in config[person][ITEMS_HEADER]:
-                print(wish)
-            print(f"-------------------\n")
+            wishes = config[person][ITEMS_HEADER]
+            df = pd.DataFrame([wishes])
+            print(tabulate(df, tablefmt='psql'))
 
 
 def read_config():
